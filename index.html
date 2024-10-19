@@ -47,10 +47,7 @@
                     <p class="text-xs text-gray-500 dark:text-gray-400">2 hours ago</p>
                 </div>
             </div>
-            <p class="text-gray-700 dark:text-gray-300 mb-4 text-sm sm:text-base">teman ada masanya , dan teman juga punya kehidupan masing masing apalagi berjauhan, jelas temanmu juga punya teman disana 
-                seperti saat kamu sd, lanjut smp, lanjut smk pasti tidak semua teman di sd dapat dihubungi kembali saat kamu smk atau justru menjauh karena sudah beda jalur 
-                meskipun dulunya pernah bersama , namun teman tetap manusia biasa yang punya keinginan dan target dalam hidupnya
-                intinya tiap teman ada masanya apalagi jika sudah berkeluarga jadi stop anggap teman sombong hanya karena lambat dalam membalas pesan.</p>
+            <p class="text-gray-700 dark:text-gray-300 mb-4 text-sm sm:text-base">teman ada masanya, dan teman juga punya kehidupan masing-masing...</p>
             <div class="flex flex-col sm:flex-row justify-between text-gray-500 dark:text-gray-400 text-xs sm:text-sm">
                 <div class="flex items-center mb-2 sm:mb-0">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -87,12 +84,68 @@
             </div>
         </div>
     </div>
-    <div class="fixed bottom-4 right-4">
-        <label for="darkModeToggle" class="bg-gray-200 dark:bg-gray-600 rounded-full p-2 cursor-pointer">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-800 dark:text-gray-200" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+    
+    <!-- Tombol edit -->
+    <div class="fixed bottom-4 right-16">
+        <button id="editButton" class="bg-blue-500 text-white rounded-full p-3 hover:bg-blue-600">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 3a2 2 0 00-2 2v2H7a2 2 0 00-2 2v8a2 2 0 002 2h10a2 2 0 002-2v-8a2 2 0 00-2-2h-2V5a2 2 0 00-2-2h-2zm0 0v8m0-8l-6 6m6-6l6 6" />
             </svg>
-        </label>
+        </button>
     </div>
+
+    <!-- Form Input untuk Edit Post -->
+    <div id="editForm" class="hidden fixed inset-0 bg-gray-900 bg-opacity-75 flex justify-center items-center z-50">
+        <div class="bg-white p-6 rounded-lg w-full max-w-lg">
+            <h2 class="text-lg font-semibold mb-4">Edit Post</h2>
+            <form id="editPostForm">
+                <div class="mb-4">
+                    <label for="name" class="block text-sm font-medium text-gray-700">Name</label>
+                    <input type="text" id="name" name="name" class="mt-1 p-2 border border-gray-300 rounded-md w-full" placeholder="Enter your name">
+                </div>
+                <div class="mb-4">
+                    <label for="message" class="block text-sm font-medium text-gray-700">Message</label>
+                    <textarea id="message" name="message" rows="4" class="mt-1 p-2 border border-gray-300 rounded-md w-full" placeholder="Enter your message"></textarea>
+                </div>
+                <div class="flex justify-end">
+                    <button type="button" id="cancelButton" class="bg-gray-500 text-white px-4 py-2 rounded-md mr-2">Cancel</button>
+                    <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-md">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Toggle edit form
+        const editButton = document.getElementById('editButton');
+        const editForm = document.getElementById('editForm');
+        const cancelButton = document.getElementById('cancelButton');
+
+        editButton.addEventListener('click', () => {
+            editForm.classList.remove('hidden');
+        });
+
+        cancelButton.addEventListener('click', () => {
+            editForm.classList.add('hidden');
+        });
+
+        // Form submit event
+        const editPostForm = document.getElementById('editPostForm');
+        const nameElement = document.querySelector('.post h2');
+        const messageElement = document.querySelector('.post p');
+
+        editPostForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const nameInput = document.getElementById('name').value;
+            const messageInput = document.getElementById('message').value;
+
+            // Update post content
+            nameElement.textContent = nameInput;
+            messageElement.textContent = messageInput;
+
+            // Hide the form after saving
+            editForm.classList.add('hidden');
+        });
+    </script>
 </body>
 </html>
