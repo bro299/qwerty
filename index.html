@@ -3,147 +3,190 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Responsive Facebook Post Template</title>
+    <title>Modern Social Media Post</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet">
     <style>
-        @media (prefers-color-scheme: dark) {
-            body {
-                background-color: #18191A;
-                color: #E4E6EB;
-            }
-            .dark-mode-toggle:checked ~ .post {
-                background-color: #242526;
-                color: #E4E6EB;
-            }
-            .dark-mode-toggle:checked ~ .post .text-gray-800 {
-                color: #E4E6EB;
-            }
-            .dark-mode-toggle:checked ~ .post .text-gray-700 {
-                color: #B0B3B8;
-            }
-            .dark-mode-toggle:checked ~ .post .text-gray-500 {
-                color: #B0B3B8;
-            }
-            .dark-mode-toggle:checked ~ .post .border-gray-200 {
-                border-color: #3E4042;
-            }
-            .dark-mode-toggle:checked ~ .post .text-gray-600 {
-                color: #B0B3B8;
-            }
-            .dark-mode-toggle:checked ~ .post .hover\:bg-gray-100:hover {
-                background-color: #3A3B3C;
-            }
+        .post-transition { transition: all 0.3s ease; }
+        .edit-form-overlay { backdrop-filter: blur(5px); }
+        .hover-scale { transition: transform 0.2s ease; }
+        .hover-scale:hover { transform: scale(1.02); }
+        
+        .color-palette {
+            position: fixed;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+        
+        .color-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin: 0 0.5rem;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+        
+        .color-btn:hover {
+            transform: scale(1.1);
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-5px); }
+            100% { transform: translateY(0px); }
+        }
+
+        .float-animation {
+            animation: float 3s ease-in-out infinite;
         }
     </style>
 </head>
-<body class="bg-gray-100 dark:bg-gray-900 p-4">
-    <input type="checkbox" id="darkModeToggle" class="dark-mode-toggle hidden">
-    <div class="post w-full max-w-xl mx-auto bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden my-4">
-        <div class="p-4">
-            <div class="flex items-center mb-4">
-                <img id="profileImage" src="pp.jpeg" alt="Profile" class="w-10 h-10 rounded-full mr-3">
-                <div>
-                    <h2 id="postName" class="font-semibold text-gray-800 dark:text-gray-200 text-sm sm:text-base">shadow0cleo</h2>
-                    <p class="text-xs text-gray-500 dark:text-gray-400">2 hours ago</p>
+<body class="bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-800 dark:to-gray-900 min-h-screen p-4">
+    <!-- Main Post Card -->
+    <div class="post-transition w-full max-w-xl mx-auto bg-white dark:bg-gray-800 rounded-xl shadow-lg hover-scale overflow-hidden my-4">
+        <div class="p-6">
+            <!-- Profile Section -->
+            <div class="flex items-center mb-6">
+                <div class="relative">
+                    <img id="profileImage" src="pp.jpeg" alt="Profile" class="w-12 h-12 rounded-full ring-4 ring-blue-500/30 object-cover">
+                    <div class="absolute bottom-0 right-0 w-4 h-4 bg-green-500 rounded-full border-2 border-white"></div>
+                </div>
+                <div class="ml-4">
+                    <h2 id="postName" class="font-bold text-gray-800 dark:text-gray-200 text-lg">shadow0cleo</h2>
+                    <div class="flex items-center text-sm text-gray-500 dark:text-gray-400">
+                        <span>2 hours ago</span>
+                        <span class="mx-2">•</span>
+                        <span class="flex items-center">
+                            <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M10 12a2 2 0 100-4 2 2 0 000 4z"/>
+                                <path fill-rule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clip-rule="evenodd"/>
+                            </svg>
+                            Public
+                        </span>
+                    </div>
                 </div>
             </div>
-            <p class="text-gray-700 dark:text-gray-300 mb-4 text-sm sm:text-base">
-                <span id="editableMessagePart">teman ada masanya, dan teman juga punya kehidupan masing masing</span></p>
-            <div class="flex flex-col sm:flex-row justify-between text-gray-500 dark:text-gray-400 text-xs sm:text-sm">
-                <div class="flex items-center mb-2 sm:mb-0">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 10h4.764a2 2 0 011.789 2.894l-3.5 7A2 2 0 0115.263 21h-4.017c-.163 0-.326-.02-.485-.06L7 20m7-10V5a2 2 0 00-2-2h-.095c-.5 0-.905.405-.905.905 0 .714-.211 1.412-.608 2.006L7 11v9m7-10h-2M7 20H5a2 2 0 01-2-2v-6a2 2 0 012-2h2.5" />
-                    </svg>
-                    <span>1rb</span>
-                </div>
-                <div class="flex space-x-4">
-                    <span>999 comments</span>
-                    <span>999 shares</span>
-                </div>
+            
+            <!-- Message Content -->
+            <div id="editableMessagePart" class="text-gray-700 dark:text-gray-300 text-lg leading-relaxed mb-6">
+                teman ada masanya, dan teman juga punya kehidupan masing masing
             </div>
         </div>
-        <div class="border-t border-gray-200 dark:border-gray-700">
-            <div class="flex justify-between p-2">
-                <button class="flex items-center text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 px-2 sm:px-4 py-2 rounded-md text-xs sm:text-sm" id="editButton">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 sm:h-5 sm:w-5 mr-1 sm:mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 10h4.764a2 2 0 011.789 2.894l-3.5 7A2 2 0 0115.263 21h-4.017c-.163 0-.326-.02-.485-.06L7 20m7-10V5a2 2 0 00-2-2h-.095c-.5 0-.905.405-.905.905 0 .714-.211 1.412-.608 2.006L7 11v9m7-10h-2M7 20H5a2 2 0 01-2-2v-6a2 2 0 012-2h2.5" />
-                    </svg>
-                    <span>Edit</span>
-                </button>
-            </div>
+
+        <!-- Edit Button -->
+        <div class="border-t border-gray-200 dark:border-gray-700 p-4">
+            <button class="bg-gradient-to-r from-blue-500 to-blue-600 text-white px-6 py-2 rounded-full flex items-center space-x-2 transform transition-all duration-200 hover:-translate-y-1 mx-auto shadow-lg hover:shadow-xl" id="editButton">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
+                </svg>
+                <span>Edit Post</span>
+            </button>
         </div>
     </div>
 
-    <!-- Form Input untuk Edit Post -->
-    <div id="editForm" class="hidden fixed inset-0 bg-gray-900 bg-opacity-75 flex justify-center items-center z-50">
-        <div class="bg-white p-6 rounded-lg w-full max-w-lg">
-            <h2 class="text-lg font-semibold mb-4">Edit Post</h2>
-            <form id="editPostForm">
-                <div class="mb-4">
-                    <label for="name" class="block text-sm font-medium text-gray-700">Name</label>
-                    <input type="text" id="name" name="name" class="mt-1 p-2 border border-gray-300 rounded-md w-full" placeholder="Enter your name">
+    <!-- Floating Color Palette -->
+    <div class="color-palette bg-white dark:bg-gray-800 p-4 rounded-full flex items-center space-x-3 animate__animated animate__fadeInUp">
+        <div class="color-btn bg-blue-500" data-color="blue"></div>
+        <div class="color-btn bg-green-500" data-color="green"></div>
+        <div class="color-btn bg-purple-500" data-color="purple"></div>
+        <div class="color-btn bg-red-500" data-color="red"></div>
+        <div class="color-btn bg-yellow-500" data-color="yellow"></div>
+    </div>
+
+    <!-- Edit Form Modal -->
+    <div id="editForm" class="hidden fixed inset-0 bg-black bg-opacity-50 edit-form-overlay flex justify-center items-center z-50">
+        <div class="bg-white dark:bg-gray-800 rounded-2xl w-full max-w-lg transform transition-all duration-300 animate__animated animate__fadeInUp m-4">
+            <div class="p-6">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-2xl font-bold text-gray-800 dark:text-gray-200">Edit Post</h2>
+                    <button id="cancelButton" class="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                        </svg>
+                    </button>
                 </div>
-                <div class="mb-4">
-                    <label for="message" class="block text-sm font-medium text-gray-700">Message</label>
-                    <textarea id="message" name="message" rows="2" class="mt-1 p-2 border border-gray-300 rounded-md w-full" placeholder="Edit the message"></textarea>
-                </div>
-                <div class="mb-4">
-                    <label for="profilePicture" class="block text-sm font-medium text-gray-700">Profile Picture</label>
-                    <input type="file" id="profilePicture" name="profilePicture" class="mt-1 p-2 border border-gray-300 rounded-md w-full">
-                </div>
-                <div class="flex justify-end">
-                    <button type="button" id="cancelButton" class="bg-gray-500 text-white px-4 py-2 rounded-md mr-2">Cancel</button>
-                    <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-md">Save</button>
-                </div>
-            </form>
+                
+                <form id="editPostForm" class="space-y-6">
+                    <!-- Form fields remain the same -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Name</label>
+                        <input type="text" id="name" class="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white" placeholder="Enter your name">
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Message</label>
+                        <textarea id="message" rows="4" class="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white" placeholder="What's on your mind?"></textarea>
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div class="flex justify-end space-x-3">
+                        <button type="button" class="px-6 py-3 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-400" onclick="document.getElementById('editForm').classList.add('hidden')">
+                            Cancel
+                        </button>
+                        <button type="submit" class="px-6 py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            Save Changes
+                        </button>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
 
     <script>
-        // Toggle edit form
+        // Existing JavaScript
         const editButton = document.getElementById('editButton');
         const editForm = document.getElementById('editForm');
         const cancelButton = document.getElementById('cancelButton');
+        const editPostForm = document.getElementById('editPostForm');
+        const nameElement = document.getElementById('postName');
+        const messagePartElement = document.getElementById('editableMessagePart');
+        
+        // Color Palette Functionality
+        document.querySelectorAll('.color-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const color = this.dataset.color;
+                const colorMap = {
+                    'blue': 'from-blue-500 to-blue-600',
+                    'green': 'from-green-500 to-green-600',
+                    'purple': 'from-purple-500 to-purple-600',
+                    'red': 'from-red-500 to-red-600',
+                    'yellow': 'from-yellow-500 to-yellow-600'
+                };
+                
+                // Update edit button gradient
+                editButton.className = `bg-gradient-to-r ${colorMap[color]} text-white px-6 py-2 rounded-full flex items-center space-x-2 transform transition-all duration-200 hover:-translate-y-1 mx-auto shadow-lg hover:shadow-xl`;
+                
+                // Add floating animation to the button
+                editButton.classList.add('float-animation');
+                setTimeout(() => {
+                    editButton.classList.remove('float-animation');
+                }, 1000);
+            });
+        });
 
+        // Existing event listeners
         editButton.addEventListener('click', () => {
             editForm.classList.remove('hidden');
+            document.getElementById('name').value = nameElement.textContent;
+            document.getElementById('message').value = messagePartElement.textContent.trim();
         });
 
         cancelButton.addEventListener('click', () => {
             editForm.classList.add('hidden');
         });
 
-        // Form submit event
-        const editPostForm = document.getElementById('editPostForm');
-        const nameElement = document.getElementById('postName');
-        const messagePartElement = document.getElementById('editableMessagePart');
-        const profileImage = document.getElementById('profileImage');
-
         editPostForm.addEventListener('submit', (e) => {
             e.preventDefault();
             const nameInput = document.getElementById('name').value;
             const messageInput = document.getElementById('message').value;
-            const profilePictureInput = document.getElementById('profilePicture').files[0];
 
-            // Update post content
-            if (nameInput) {
-                nameElement.textContent = nameInput;
-            }
+            if (nameInput) nameElement.textContent = nameInput;
+            if (messageInput) messagePartElement.textContent = messageInput;
 
-            if (messageInput) {
-                messagePartElement.textContent = messageInput;
-            }
-
-            // Update profile picture
-            if (profilePictureInput) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    profileImage.src = e.target.result;
-                };
-                reader.readAsDataURL(profilePictureInput);
-            }
-
-            // Close the edit form after saving
             editForm.classList.add('hidden');
         });
     </script>
