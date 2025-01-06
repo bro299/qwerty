@@ -22,6 +22,15 @@
             z-index: 1000;
         }
         
+        .action-buttons {
+            position: fixed;
+            bottom: 1rem;
+            right: 1rem;
+            display: flex;
+            gap: 1rem;
+            z-index: 1001;
+        }
+
         .color-btn {
             width: 40px;
             height: 40px;
@@ -39,24 +48,95 @@
         .font-montserrat { font-family: 'Montserrat', sans-serif; }
         .font-opensans { font-family: 'Open Sans', sans-serif; }
 
-        .settings-toggle {
-            position: fixed;
-            bottom: 1rem;
-            right: 1rem;
-            z-index: 1001;
-        }
         .preview-image {
-        max-width: 100px;
-        max-height: 100px;
-        object-fit: cover;
-        border-radius: 0.5rem;
-        margin-top: 0.5rem;
+            max-width: 100px;
+            max-height: 100px;
+            object-fit: cover;
+            border-radius: 0.5rem;
+            margin-top: 0.5rem;
         }
 
-        .bg-pattern-1 { background-image: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%); }
-        .bg-pattern-2 { background-image: linear-gradient(120deg, #a1c4fd 0%, #c2e9fb 100%); }
-        .bg-pattern-3 { background-image: linear-gradient(to top, #cfd9df 0%, #e2ebf0 100%); }
-        .bg-pattern-4 { background-image: linear-gradient(to top, #e6e9f0 0%, #eef1f5 100%); }
+        /* Color Theme Classes */
+        .theme-default {
+            --bg-primary: #f5f7fa;
+            --bg-secondary: #ffffff;
+            --text-primary: #1a1a1a;
+            --text-secondary: #4a5568;
+        }
+
+        .theme-ocean {
+            --bg-primary: #a1c4fd;
+            --bg-secondary: #e2ebf0;
+            --text-primary: #2d3748;
+            --text-secondary: #4a5568;
+        }
+
+        .theme-sunset {
+            --bg-primary: #f6d365;
+            --bg-secondary: #ffecd2;
+            --text-primary: #2d3748;
+            --text-secondary: #4a5568;
+        }
+
+        .theme-forest {
+            --bg-primary: #84fab0;
+            --bg-secondary: #def7e5;
+            --text-primary: #234e52;
+            --text-secondary: #2f6165;
+        }
+
+        .theme-lavender {
+            --bg-primary: #667eea;
+            --bg-secondary: #e6e6ff;
+            --text-primary: #2a4365;
+            --text-secondary: #4a5568;
+        }
+
+        .theme-cherry {
+            --bg-primary: #ff758c;
+            --bg-secondary: #ffe5e5;
+            --text-primary: #742a2a;
+            --text-secondary: #9b2c2c;
+        }
+
+        .theme-midnight {
+            --bg-primary: #2d3748;
+            --bg-secondary: #1a202c;
+            --text-primary: #f7fafc;
+            --text-secondary: #e2e8f0;
+        }
+
+        .theme-autumn {
+            --bg-primary: #ed8936;
+            --bg-secondary: #feebc8;
+            --text-primary: #744210;
+            --text-secondary: #975a16;
+        }
+
+        .color-theme {
+            background-color: var(--bg-primary);
+            transition: all 0.3s ease;
+        }
+
+        .post-container {
+            background-color: var(--bg-secondary);
+            color: var(--text-primary);
+            transition: all 0.3s ease;
+        }
+
+        .color-swatch {
+            width: 2rem;
+            height: 2rem;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+            border: 2px solid white;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .color-swatch:hover {
+            transform: scale(1.1);
+        }
 
         @keyframes float {
             0% { transform: translateY(0px); }
@@ -66,9 +146,9 @@
         .float-animation { animation: float 3s ease-in-out infinite; }
     </style>
 </head>
-<body id="mainBody" class="bg-pattern-1 min-h-screen p-4 font-roboto">
+<body id="mainBody" class="color-theme theme-default min-h-screen p-4 font-roboto">
     <!-- Main Post Card -->
-    <div class="post-transition w-full max-w-xl mx-auto bg-white dark:bg-gray-800 rounded-xl shadow-lg hover-scale overflow-hidden my-4">
+    <div class="post-container w-full max-w-xl mx-auto rounded-xl shadow-lg hover-scale overflow-hidden my-4 post-transition">
         <div class="p-6">
             <div class="flex items-center mb-6">
                 <div class="relative">
@@ -76,8 +156,8 @@
                     <div class="absolute bottom-0 right-0 w-4 h-4 bg-green-500 rounded-full border-2 border-white"></div>
                 </div>
                 <div class="ml-4">
-                    <h2 id="postName" class="font-bold text-gray-800 dark:text-gray-200 text-lg">shadow0cleo</h2>
-                    <div class="flex items-center text-sm text-gray-500 dark:text-gray-400">
+                    <h2 id="postName" class="font-bold text-lg">shadow0cleo</h2>
+                    <div class="flex items-center text-sm text-gray-500">
                         <span>2 hours ago</span>
                         <span class="mx-2">•</span>
                         <span class="flex items-center">
@@ -91,40 +171,42 @@
                 </div>
             </div>
             
-            <div id="editableMessagePart" class="text-gray-700 dark:text-gray-300 text-lg leading-relaxed mb-6">
+            <div id="editableMessagePart" class="text-lg leading-relaxed mb-6">
                 teman ada masanya, dan teman juga punya kehidupan masing masing
             </div>
         </div>
-
-        <div class="border-t border-gray-200 dark:border-gray-700 p-4">
-            <button class="bg-gradient-to-r from-blue-500 to-blue-600 text-white px-6 py-2 rounded-full flex items-center space-x-2 transform transition-all duration-200 hover:-translate-y-1 mx-auto shadow-lg hover:shadow-xl" id="editButton">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
-                </svg>
-                <span>Edit Post</span>
-            </button>
-        </div>
     </div>
 
-    <!-- Settings Toggle Button -->
-    <button id="settingsToggle" class="settings-toggle bg-white dark:bg-gray-800 p-3 rounded-full shadow-lg">
-        <svg class="w-6 h-6 text-gray-600 dark:text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/>
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
-        </svg>
-    </button>
+    <!-- Action Buttons -->
+    <div class="action-buttons">
+        <button id="editButton" class="bg-white p-3 rounded-full shadow-lg hover:shadow-xl transition-all duration-200">
+            <svg class="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
+            </svg>
+        </button>
+        <button id="settingsToggle" class="bg-white p-3 rounded-full shadow-lg hover:shadow-xl transition-all duration-200">
+            <svg class="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/>
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+            </svg>
+        </button>
+    </div>
 
     <!-- Settings Panel -->
     <div id="settingsPanel" class="settings-panel hidden">
         <div class="bg-white dark:bg-gray-800 rounded-xl shadow-xl p-6 animate__animated animate__fadeInUp">
-            <!-- Background Settings -->
+            <!-- Color Theme Settings -->
             <div class="mb-6">
-                <h3 class="text-lg font-semibold text-gray-700 dark:text-gray-300 mb-3">Background Style</h3>
+                <h3 class="text-lg font-semibold text-gray-700 dark:text-gray-300 mb-3">Color Theme</h3>
                 <div class="grid grid-cols-4 gap-3">
-                    <button class="w-full h-12 rounded-lg bg-pattern-1 hover:ring-2 ring-blue-500" onclick="changeBackground('bg-pattern-1')"></button>
-                    <button class="w-full h-12 rounded-lg bg-pattern-2 hover:ring-2 ring-blue-500" onclick="changeBackground('bg-pattern-2')"></button>
-                    <button class="w-full h-12 rounded-lg bg-pattern-3 hover:ring-2 ring-blue-500" onclick="changeBackground('bg-pattern-3')"></button>
-                    <button class="w-full h-12 rounded-lg bg-pattern-4 hover:ring-2 ring-blue-500" onclick="changeBackground('bg-pattern-4')"></button>
+                    <div class="color-swatch theme-default bg-[#f5f7fa]" onclick="changeTheme('theme-default')"></div>
+                    <div class="color-swatch theme-ocean bg-[#a1c4fd]" onclick="changeTheme('theme-ocean')"></div>
+                    <div class="color-swatch theme-sunset bg-[#f6d365]" onclick="changeTheme('theme-sunset')"></div>
+                    <div class="color-swatch theme-forest bg-[#84fab0]" onclick="changeTheme('theme-forest')"></div>
+                    <div class="color-swatch theme-lavender bg-[#667eea]" onclick="changeTheme('theme-lavender')"></div>
+                    <div class="color-swatch theme-cherry bg-[#ff758c]" onclick="changeTheme('theme-cherry')"></div>
+                    <div class="color-swatch theme-midnight bg-[#2d3748]" onclick="changeTheme('theme-midnight')"></div>
+                    <div class="color-swatch theme-autumn bg-[#ed8936]" onclick="changeTheme('theme-autumn')"></div>
                 </div>
             </div>
 
@@ -138,18 +220,6 @@
                     <option value="font-montserrat">Montserrat</option>
                     <option value="font-opensans">Open Sans</option>
                 </select>
-            </div>
-
-            <!-- Button Color Settings -->
-            <div>
-                <h3 class="text-lg font-semibold text-gray-700 dark:text-gray-300 mb-3">Button Color</h3>
-                <div class="flex justify-center space-x-2">
-                    <div class="color-btn bg-blue-500" data-color="blue"></div>
-                    <div class="color-btn bg-green-500" data-color="green"></div>
-                    <div class="color-btn bg-purple-500" data-color="purple"></div>
-                    <div class="color-btn bg-red-500" data-color="red"></div>
-                    <div class="color-btn bg-yellow-500" data-color="yellow"></div>
-                </div>
             </div>
         </div>
     </div>
@@ -245,44 +315,35 @@
             'h5': 'text-lg'
         };
 
+        // Theme Change Function
+        function changeTheme(theme) {
+            // Remove all existing theme classes
+            mainBody.classList.forEach(className => {
+                if (className.startsWith('theme-')) {
+                    mainBody.classList.remove(className);
+                }
+            });
+            // Add new theme class
+            mainBody.classList.add(theme);
+            
+            // Add float animation to settings panel
+            const settingsPanelContent = document.querySelector('.settings-panel > div');
+            settingsPanelContent.classList.add('float-animation');
+            setTimeout(() => {
+                settingsPanelContent.classList.remove('float-animation');
+            }, 1000);
+        }
+
         // Settings Panel Toggle
         settingsToggle.addEventListener('click', () => {
             settingsPanel.classList.toggle('hidden');
         });
 
-        // Background Pattern Change
-        function changeBackground(patternClass) {
-            const currentFont = mainBody.className.split(' ').find(cls => cls.startsWith('font-'));
-            mainBody.className = `${patternClass} min-h-screen p-4 ${currentFont}`;
-        }
-
         // Font Family Change
         fontSelect.addEventListener('change', (e) => {
-            const currentBgClass = mainBody.className.split(' ').find(cls => cls.startsWith('bg-pattern'));
-            mainBody.className = `${currentBgClass} min-h-screen p-4 ${e.target.value}`;
+            const currentTheme = Array.from(mainBody.classList).find(cls => cls.startsWith('theme-'));
+            mainBody.className = `color-theme ${currentTheme} min-h-screen p-4 ${e.target.value}`;
             messagePartElement.style.fontFamily = getComputedStyle(document.querySelector(`.${e.target.value}`)).fontFamily;
-        });
-
-        // Button Color Change
-        document.querySelectorAll('.color-btn').forEach(btn => {
-            btn.addEventListener('click', function() {
-                const color = this.dataset.color;
-                const colorMap = {
-                    'blue': 'from-blue-500 to-blue-600',
-                    'green': 'from-green-500 to-green-600',
-                    'purple': 'from-purple-500 to-purple-600',
-                    'red': 'from-red-500 to-red-600',
-                    'yellow': 'from-yellow-500 to-yellow-600'
-                };
-                
-                editButton.className = `bg-gradient-to-r ${colorMap[color]} text-white px-6 py-2 rounded-full flex items-center space-x-2 transform transition-all duration-200 hover:-translate-y-1 mx-auto shadow-lg hover:shadow-xl`;
-                
-                // Add floating animation
-                editButton.classList.add('float-animation');
-                setTimeout(() => {
-                    editButton.classList.remove('float-animation');
-                }, 1000);
-            });
         });
 
         // Profile Picture Preview
@@ -319,19 +380,15 @@
             const messageInput = document.getElementById('message').value;
             const selectedSize = textSizeSelect.value;
 
-            // Update name if provided
             if (nameInput) {
                 nameElement.textContent = nameInput;
             }
 
-            // Update message if provided
             if (messageInput) {
                 messagePartElement.textContent = messageInput;
-                // Apply selected text size
-                messagePartElement.className = `text-gray-700 dark:text-gray-300 leading-relaxed mb-6 ${textSizes[selectedSize]}`;
+                messagePartElement.className = `leading-relaxed mb-6 ${textSizes[selectedSize]}`;
             }
 
-            // Update profile picture if new file selected
             const profilePictureFile = profilePictureInput.files[0];
             if (profilePictureFile) {
                 const reader = new FileReader();
@@ -341,7 +398,6 @@
                 reader.readAsDataURL(profilePictureFile);
             }
 
-            // Close form and clear preview
             editForm.classList.add('hidden');
             imagePreview.innerHTML = '';
             profilePictureInput.value = '';
@@ -349,11 +405,10 @@
 
         // Close settings panel when clicking outside
         document.addEventListener('click', (e) => {
-            if (!settingsPanel.contains(e.target) && !settingsToggle.contains(e.target) && !settingsPanel.classList.contains('hidden')) {
+            if (!settingsPanel.contains(e.target) && !settingsToggle.contains(e.target) && !editButton.contains(e.target) && !settingsPanel.classList.contains('hidden')) {
                 settingsPanel.classList.add('hidden');
             }
         });
     </script>
-    
 </body>
-        </html>
+</html>
