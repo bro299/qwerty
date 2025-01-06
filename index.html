@@ -6,19 +6,20 @@
     <title>Modern Social Media Post</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&family=Roboto:wght@400;500;700&family=Playfair+Display:wght@400;500;600&family=Montserrat:wght@400;500;600&family=Open+Sans:wght@400;500;600&display=swap" rel="stylesheet">
     <style>
         .post-transition { transition: all 0.3s ease; }
         .edit-form-overlay { backdrop-filter: blur(5px); }
         .hover-scale { transition: transform 0.2s ease; }
         .hover-scale:hover { transform: scale(1.02); }
         
-        .color-palette {
+        .settings-panel {
             position: fixed;
             bottom: 2rem;
             left: 50%;
             transform: translateX(-50%);
             transition: all 0.3s ease;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
         }
         
         .color-btn {
@@ -30,26 +31,45 @@
             transition: transform 0.2s ease;
         }
         
-        .color-btn:hover {
-            transform: scale(1.1);
+        .color-btn:hover { transform: scale(1.1); }
+
+        .font-poppins { font-family: 'Poppins', sans-serif; }
+        .font-roboto { font-family: 'Roboto', sans-serif; }
+        .font-playfair { font-family: 'Playfair Display', serif; }
+        .font-montserrat { font-family: 'Montserrat', sans-serif; }
+        .font-opensans { font-family: 'Open Sans', sans-serif; }
+
+        .settings-toggle {
+            position: fixed;
+            bottom: 1rem;
+            right: 1rem;
+            z-index: 1001;
         }
+        .preview-image {
+        max-width: 100px;
+        max-height: 100px;
+        object-fit: cover;
+        border-radius: 0.5rem;
+        margin-top: 0.5rem;
+        }
+
+        .bg-pattern-1 { background-image: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%); }
+        .bg-pattern-2 { background-image: linear-gradient(120deg, #a1c4fd 0%, #c2e9fb 100%); }
+        .bg-pattern-3 { background-image: linear-gradient(to top, #cfd9df 0%, #e2ebf0 100%); }
+        .bg-pattern-4 { background-image: linear-gradient(to top, #e6e9f0 0%, #eef1f5 100%); }
 
         @keyframes float {
             0% { transform: translateY(0px); }
             50% { transform: translateY(-5px); }
             100% { transform: translateY(0px); }
         }
-
-        .float-animation {
-            animation: float 3s ease-in-out infinite;
-        }
+        .float-animation { animation: float 3s ease-in-out infinite; }
     </style>
 </head>
-<body class="bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-800 dark:to-gray-900 min-h-screen p-4">
+<body id="mainBody" class="bg-pattern-1 min-h-screen p-4 font-roboto">
     <!-- Main Post Card -->
     <div class="post-transition w-full max-w-xl mx-auto bg-white dark:bg-gray-800 rounded-xl shadow-lg hover-scale overflow-hidden my-4">
         <div class="p-6">
-            <!-- Profile Section -->
             <div class="flex items-center mb-6">
                 <div class="relative">
                     <img id="profileImage" src="pp.jpeg" alt="Profile" class="w-12 h-12 rounded-full ring-4 ring-blue-500/30 object-cover">
@@ -71,13 +91,11 @@
                 </div>
             </div>
             
-            <!-- Message Content -->
             <div id="editableMessagePart" class="text-gray-700 dark:text-gray-300 text-lg leading-relaxed mb-6">
                 teman ada masanya, dan teman juga punya kehidupan masing masing
             </div>
         </div>
 
-        <!-- Edit Button -->
         <div class="border-t border-gray-200 dark:border-gray-700 p-4">
             <button class="bg-gradient-to-r from-blue-500 to-blue-600 text-white px-6 py-2 rounded-full flex items-center space-x-2 transform transition-all duration-200 hover:-translate-y-1 mx-auto shadow-lg hover:shadow-xl" id="editButton">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -88,13 +106,52 @@
         </div>
     </div>
 
-    <!-- Floating Color Palette -->
-    <div class="color-palette bg-white dark:bg-gray-800 p-4 rounded-full flex items-center space-x-3 animate__animated animate__fadeInUp">
-        <div class="color-btn bg-blue-500" data-color="blue"></div>
-        <div class="color-btn bg-green-500" data-color="green"></div>
-        <div class="color-btn bg-purple-500" data-color="purple"></div>
-        <div class="color-btn bg-red-500" data-color="red"></div>
-        <div class="color-btn bg-yellow-500" data-color="yellow"></div>
+    <!-- Settings Toggle Button -->
+    <button id="settingsToggle" class="settings-toggle bg-white dark:bg-gray-800 p-3 rounded-full shadow-lg">
+        <svg class="w-6 h-6 text-gray-600 dark:text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/>
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+        </svg>
+    </button>
+
+    <!-- Settings Panel -->
+    <div id="settingsPanel" class="settings-panel hidden">
+        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-xl p-6 animate__animated animate__fadeInUp">
+            <!-- Background Settings -->
+            <div class="mb-6">
+                <h3 class="text-lg font-semibold text-gray-700 dark:text-gray-300 mb-3">Background Style</h3>
+                <div class="grid grid-cols-4 gap-3">
+                    <button class="w-full h-12 rounded-lg bg-pattern-1 hover:ring-2 ring-blue-500" onclick="changeBackground('bg-pattern-1')"></button>
+                    <button class="w-full h-12 rounded-lg bg-pattern-2 hover:ring-2 ring-blue-500" onclick="changeBackground('bg-pattern-2')"></button>
+                    <button class="w-full h-12 rounded-lg bg-pattern-3 hover:ring-2 ring-blue-500" onclick="changeBackground('bg-pattern-3')"></button>
+                    <button class="w-full h-12 rounded-lg bg-pattern-4 hover:ring-2 ring-blue-500" onclick="changeBackground('bg-pattern-4')"></button>
+                </div>
+            </div>
+
+            <!-- Font Settings -->
+            <div class="mb-6">
+                <h3 class="text-lg font-semibold text-gray-700 dark:text-gray-300 mb-3">Font Style</h3>
+                <select id="fontSelect" class="w-full p-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-300">
+                    <option value="font-roboto">Roboto</option>
+                    <option value="font-poppins">Poppins</option>
+                    <option value="font-playfair">Playfair Display</option>
+                    <option value="font-montserrat">Montserrat</option>
+                    <option value="font-opensans">Open Sans</option>
+                </select>
+            </div>
+
+            <!-- Button Color Settings -->
+            <div>
+                <h3 class="text-lg font-semibold text-gray-700 dark:text-gray-300 mb-3">Button Color</h3>
+                <div class="flex justify-center space-x-2">
+                    <div class="color-btn bg-blue-500" data-color="blue"></div>
+                    <div class="color-btn bg-green-500" data-color="green"></div>
+                    <div class="color-btn bg-purple-500" data-color="purple"></div>
+                    <div class="color-btn bg-red-500" data-color="red"></div>
+                    <div class="color-btn bg-yellow-500" data-color="yellow"></div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <!-- Edit Form Modal -->
@@ -111,7 +168,6 @@
                 </div>
                 
                 <form id="editPostForm" class="space-y-6">
-                    <!-- Form fields remain the same -->
                     <div>
                         <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Name</label>
                         <input type="text" id="name" class="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white" placeholder="Enter your name">
@@ -122,9 +178,35 @@
                         <textarea id="message" rows="4" class="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white" placeholder="What's on your mind?"></textarea>
                     </div>
 
-                    <!-- Action Buttons -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Text Size</label>
+                        <select id="textSize" class="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white">
+                            <option value="h1">H1 - Very Large</option>
+                            <option value="h2">H2 - Large</option>
+                            <option value="h3">H3 - Medium</option>
+                            <option value="h4">H4 - Normal</option>
+                            <option value="h5">H5 - Small</option>
+                        </select>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Profile Picture</label>
+                        <div class="relative">
+                            <input type="file" id="profilePicture" class="hidden" accept="image/*">
+                            <label for="profilePicture" class="flex items-center justify-center w-full px-4 py-3 border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg cursor-pointer hover:border-blue-500 dark:hover:border-blue-400">
+                                <div class="flex items-center space-x-2">
+                                    <svg class="w-6 h-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                                    </svg>
+                                    <span class="text-gray-600 dark:text-gray-400">Choose a photo</span>
+                                </div>
+                            </label>
+                            <div id="imagePreview" class="mt-2"></div>
+                        </div>
+                    </div>
+
                     <div class="flex justify-end space-x-3">
-                        <button type="button" class="px-6 py-3 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-400" onclick="document.getElementById('editForm').classList.add('hidden')">
+                        <button type="button" id="cancelEditBtn" class="px-6 py-3 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-400">
                             Cancel
                         </button>
                         <button type="submit" class="px-6 py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500">
@@ -137,15 +219,51 @@
     </div>
 
     <script>
-        // Existing JavaScript
+        // DOM Elements
         const editButton = document.getElementById('editButton');
         const editForm = document.getElementById('editForm');
         const cancelButton = document.getElementById('cancelButton');
+        const cancelEditBtn = document.getElementById('cancelEditBtn');
         const editPostForm = document.getElementById('editPostForm');
         const nameElement = document.getElementById('postName');
         const messagePartElement = document.getElementById('editableMessagePart');
-        
-        // Color Palette Functionality
+        const profileImage = document.getElementById('profileImage');
+        const textSizeSelect = document.getElementById('textSize');
+        const settingsToggle = document.getElementById('settingsToggle');
+        const settingsPanel = document.getElementById('settingsPanel');
+        const mainBody = document.getElementById('mainBody');
+        const fontSelect = document.getElementById('fontSelect');
+        const profilePictureInput = document.getElementById('profilePicture');
+        const imagePreview = document.getElementById('imagePreview');
+
+        // Text size mappings
+        const textSizes = {
+            'h1': 'text-4xl font-bold',
+            'h2': 'text-3xl font-semibold',
+            'h3': 'text-2xl font-medium',
+            'h4': 'text-xl',
+            'h5': 'text-lg'
+        };
+
+        // Settings Panel Toggle
+        settingsToggle.addEventListener('click', () => {
+            settingsPanel.classList.toggle('hidden');
+        });
+
+        // Background Pattern Change
+        function changeBackground(patternClass) {
+            const currentFont = mainBody.className.split(' ').find(cls => cls.startsWith('font-'));
+            mainBody.className = `${patternClass} min-h-screen p-4 ${currentFont}`;
+        }
+
+        // Font Family Change
+        fontSelect.addEventListener('change', (e) => {
+            const currentBgClass = mainBody.className.split(' ').find(cls => cls.startsWith('bg-pattern'));
+            mainBody.className = `${currentBgClass} min-h-screen p-4 ${e.target.value}`;
+            messagePartElement.style.fontFamily = getComputedStyle(document.querySelector(`.${e.target.value}`)).fontFamily;
+        });
+
+        // Button Color Change
         document.querySelectorAll('.color-btn').forEach(btn => {
             btn.addEventListener('click', function() {
                 const color = this.dataset.color;
@@ -157,10 +275,9 @@
                     'yellow': 'from-yellow-500 to-yellow-600'
                 };
                 
-                // Update edit button gradient
                 editButton.className = `bg-gradient-to-r ${colorMap[color]} text-white px-6 py-2 rounded-full flex items-center space-x-2 transform transition-all duration-200 hover:-translate-y-1 mx-auto shadow-lg hover:shadow-xl`;
                 
-                // Add floating animation to the button
+                // Add floating animation
                 editButton.classList.add('float-animation');
                 setTimeout(() => {
                     editButton.classList.remove('float-animation');
@@ -168,27 +285,75 @@
             });
         });
 
-        // Existing event listeners
+        // Profile Picture Preview
+        profilePictureInput.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    imagePreview.innerHTML = `<img src="${e.target.result}" class="preview-image" alt="Preview">`;
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // Edit Form Handlers
         editButton.addEventListener('click', () => {
             editForm.classList.remove('hidden');
             document.getElementById('name').value = nameElement.textContent;
             document.getElementById('message').value = messagePartElement.textContent.trim();
         });
 
-        cancelButton.addEventListener('click', () => {
-            editForm.classList.add('hidden');
+        // Cancel Button Handlers
+        [cancelButton, cancelEditBtn].forEach(btn => {
+            btn.addEventListener('click', () => {
+                editForm.classList.add('hidden');
+                imagePreview.innerHTML = ''; // Clear preview
+            });
         });
 
+        // Form Submit Handler
         editPostForm.addEventListener('submit', (e) => {
             e.preventDefault();
             const nameInput = document.getElementById('name').value;
             const messageInput = document.getElementById('message').value;
+            const selectedSize = textSizeSelect.value;
 
-            if (nameInput) nameElement.textContent = nameInput;
-            if (messageInput) messagePartElement.textContent = messageInput;
+            // Update name if provided
+            if (nameInput) {
+                nameElement.textContent = nameInput;
+            }
 
+            // Update message if provided
+            if (messageInput) {
+                messagePartElement.textContent = messageInput;
+                // Apply selected text size
+                messagePartElement.className = `text-gray-700 dark:text-gray-300 leading-relaxed mb-6 ${textSizes[selectedSize]}`;
+            }
+
+            // Update profile picture if new file selected
+            const profilePictureFile = profilePictureInput.files[0];
+            if (profilePictureFile) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    profileImage.src = e.target.result;
+                };
+                reader.readAsDataURL(profilePictureFile);
+            }
+
+            // Close form and clear preview
             editForm.classList.add('hidden');
+            imagePreview.innerHTML = '';
+            profilePictureInput.value = '';
+        });
+
+        // Close settings panel when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!settingsPanel.contains(e.target) && !settingsToggle.contains(e.target) && !settingsPanel.classList.contains('hidden')) {
+                settingsPanel.classList.add('hidden');
+            }
         });
     </script>
+    
 </body>
-</html>
+        </html>
