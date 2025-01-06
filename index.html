@@ -8,142 +8,297 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&family=Roboto:wght@400;500;700&family=Playfair+Display:wght@400;500;600&family=Montserrat:wght@400;500;600&family=Open+Sans:wght@400;500;600&display=swap" rel="stylesheet">
     <style>
-        .post-transition { transition: all 0.3s ease; }
-        .edit-form-overlay { backdrop-filter: blur(5px); }
-        .hover-scale { transition: transform 0.2s ease; }
-        .hover-scale:hover { transform: scale(1.02); }
+        .post-transition { 
+    transition: all 0.3s ease; 
+}
+
+.edit-form-overlay { 
+    backdrop-filter: blur(5px); 
+}
+
+.hover-scale { 
+    transition: transform 0.2s ease; 
+}
+
+.hover-scale:hover { 
+    transform: scale(1.02); 
+}
+
+.settings-panel {
+    position: fixed;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    transition: all 0.3s ease;
+    z-index: 1000;
+}
+
+.action-buttons {
+    position: fixed;
+    bottom: 1rem;
+    right: 1rem;
+    display: flex;
+    gap: 1rem;
+    z-index: 1001;
+}
+
+.color-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin: 0 0.5rem;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+.color-btn:hover { 
+    transform: scale(1.1); 
+}
+
+.font-poppins { font-family: 'Poppins', sans-serif; }
+.font-roboto { font-family: 'Roboto', sans-serif; }
+.font-playfair { font-family: 'Playfair Display', serif; }
+.font-montserrat { font-family: 'Montserrat', sans-serif; }
+.font-opensans { font-family: 'Open Sans', sans-serif; }
+
+.preview-image {
+    max-width: 100px;
+    max-height: 100px;
+    object-fit: cover;
+    border-radius: 0.5rem;
+    margin-top: 0.5rem;
+}
+
+/* Color Theme Classes */
+.theme-default {
+    --bg-primary: #f5f7fa;
+    --bg-secondary: #f0f5fa;
+    --text-primary: #1a1a1a;
+    --text-secondary: #4a5568;
+    --border-color: #e2e8f0;
+}
+
+.theme-ocean {
+    --bg-primary: #a1c4fd;
+    --bg-secondary: #90b8fa;
+    --text-primary: #2d3748;
+    --text-secondary: #4a5568;
+    --border-color: #7aa9f9;
+}
+
+.theme-sunset {
+    --bg-primary: #f6d365;
+    --bg-secondary: #fac956;
+    --text-primary: #2d3748;
+    --text-secondary: #4a5568;
+    --border-color: #f8be45;
+}
+
+.theme-forest {
+    --bg-primary: #84fab0;
+    --bg-secondary: #76f5a5;
+    --text-primary: #234e52;
+    --text-secondary: #2f6165;
+    --border-color: #68f59c;
+}
+
+.theme-lavender {
+    --bg-primary: #667eea;
+    --bg-secondary: #5a73e8;
+    --text-primary: #ffffff;
+    --text-secondary: #e2e8f0;
+    --border-color: #4d67e6;
+}
+
+.theme-cherry {
+    --bg-primary: #ff758c;
+    --bg-secondary: #ff6681;
+    --text-primary: #ffffff;
+    --text-secondary: #ffe5e5;
+    --border-color: #ff5374;
+}
+
+.theme-midnight {
+    --bg-primary: #2d3748;
+    --bg-secondary: #252f3f;
+    --text-primary: #f7fafc;
+    --text-secondary: #e2e8f0;
+    --border-color: #1d2536;
+}
+
+.theme-autumn {
+    --bg-primary: #ed8936;
+    --bg-secondary: #eb7d21;
+    --text-primary: #ffffff;
+    --text-secondary: #feebc8;
+    --border-color: #e97610;
+}
+
+.color-theme {
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    transition: all 0.3s ease;
+}
+
+.post-container {
+    background-color: var(--bg-secondary);
+    color: var(--text-primary);
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.07);
+    backdrop-filter: brightness(105%);
+    border: 1px solid var(--border-color);
+}
+
+.post-container .text-gray-500 {
+    color: var(--text-secondary);
+}
+
+.color-swatch {
+    width: 2rem;
+    height: 2rem;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+    border: 2px solid white;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.color-swatch:hover {
+    transform: scale(1.1);
+}
+
+/* Update color swatches to match theme colors */
+.color-swatch.theme-default { background-color: var(--bg-primary); }
+.color-swatch.theme-ocean { background-color: var(--bg-primary); }
+.color-swatch.theme-sunset { background-color: var(--bg-primary); }
+.color-swatch.theme-forest { background-color: var(--bg-primary); }
+.color-swatch.theme-lavender { background-color: var(--bg-primary); }
+.color-swatch.theme-cherry { background-color: var(--bg-primary); }
+.color-swatch.theme-midnight { background-color: var(--bg-primary); }
+.color-swatch.theme-autumn { background-color: var(--bg-primary); }
+
+/* Animation Keyframes */
+@keyframes float {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-5px); }
+    100% { transform: translateY(0px); }
+}
+
+.float-animation { 
+    animation: float 3s ease-in-out infinite; 
+}
+
+/* Form Styles */
+.form-input {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border-radius: 0.5rem;
+    border: 1px solid var(--border-color);
+    background-color: var(--bg-secondary);
+    color: var(--text-primary);
+    transition: all 0.3s ease;
+}
+
+.form-input:focus {
+    outline: none;
+    border-color: var(--bg-primary);
+    box-shadow: 0 0 0 2px rgba(var(--bg-primary), 0.2);
+}
+
+.form-label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: var(--text-primary);
+    font-weight: 500;
+}
+
+/* Button Styles */
+.btn {
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.5rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.btn-primary {
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    border: 1px solid var(--border-color);
+}
+
+.btn-primary:hover {
+    background-color: var(--bg-secondary);
+    transform: translateY(-1px);
+}
+
+.btn-secondary {
+    background-color: transparent;
+    color: var(--text-primary);
+    border: 1px solid var(--border-color);
+}
+
+.btn-secondary:hover {
+    background-color: var(--bg-secondary);
+}
+
+/* Modal Styles */
+.modal {
+    background-color: var(--bg-secondary);
+    border-radius: 1rem;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    max-width: 32rem;
+    width: 90%;
+    margin: 1rem;
+}
+
+.modal-header {
+    padding: 1.5rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.modal-body {
+    padding: 1.5rem;
+}
+
+.modal-footer {
+    padding: 1.5rem;
+    border-top: 1px solid var(--border-color);
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+}
+
+/* Responsive Styles */
+@media (max-width: 640px) {
+    .settings-panel {
+        bottom: 1rem;
+        width: 90%;
+    }
+
+    .action-buttons {
+        bottom: 0.5rem;
+        right: 0.5rem;
+    }
+
+    .modal {
+        width: 95%;
+        margin: 0.5rem;
+    }
+}
+
+/* Dark Mode Modifications */
+@media (prefers-color-scheme: dark) {
+    .theme-default {
+        --bg-primary: #1a202c;
+        --bg-secondary: #2d3748;
+        --text-primary: #f7fafc;
+        --text-secondary: #e2e8f0;
+        --border-color: #4a5568;
+    }
+}
+
         
-        .settings-panel {
-            position: fixed;
-            bottom: 2rem;
-            left: 50%;
-            transform: translateX(-50%);
-            transition: all 0.3s ease;
-            z-index: 1000;
-        }
-        
-        .action-buttons {
-            position: fixed;
-            bottom: 1rem;
-            right: 1rem;
-            display: flex;
-            gap: 1rem;
-            z-index: 1001;
-        }
-
-        .color-btn {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            margin: 0 0.5rem;
-            cursor: pointer;
-            transition: transform 0.2s ease;
-        }
-        
-        .color-btn:hover { transform: scale(1.1); }
-
-        .font-poppins { font-family: 'Poppins', sans-serif; }
-        .font-roboto { font-family: 'Roboto', sans-serif; }
-        .font-playfair { font-family: 'Playfair Display', serif; }
-        .font-montserrat { font-family: 'Montserrat', sans-serif; }
-        .font-opensans { font-family: 'Open Sans', sans-serif; }
-
-        .preview-image {
-            max-width: 100px;
-            max-height: 100px;
-            object-fit: cover;
-            border-radius: 0.5rem;
-            margin-top: 0.5rem;
-        }
-
-        /* Color Theme Classes */
-        .theme-default {
-            --bg-primary: #f5f7fa;
-            --bg-secondary: #ffffff;
-            --text-primary: #1a1a1a;
-            --text-secondary: #4a5568;
-        }
-
-        .theme-ocean {
-            --bg-primary: #a1c4fd;
-            --bg-secondary: #e2ebf0;
-            --text-primary: #2d3748;
-            --text-secondary: #4a5568;
-        }
-
-        .theme-sunset {
-            --bg-primary: #f6d365;
-            --bg-secondary: #ffecd2;
-            --text-primary: #2d3748;
-            --text-secondary: #4a5568;
-        }
-
-        .theme-forest {
-            --bg-primary: #84fab0;
-            --bg-secondary: #def7e5;
-            --text-primary: #234e52;
-            --text-secondary: #2f6165;
-        }
-
-        .theme-lavender {
-            --bg-primary: #667eea;
-            --bg-secondary: #e6e6ff;
-            --text-primary: #2a4365;
-            --text-secondary: #4a5568;
-        }
-
-        .theme-cherry {
-            --bg-primary: #ff758c;
-            --bg-secondary: #ffe5e5;
-            --text-primary: #742a2a;
-            --text-secondary: #9b2c2c;
-        }
-
-        .theme-midnight {
-            --bg-primary: #2d3748;
-            --bg-secondary: #1a202c;
-            --text-primary: #f7fafc;
-            --text-secondary: #e2e8f0;
-        }
-
-        .theme-autumn {
-            --bg-primary: #ed8936;
-            --bg-secondary: #feebc8;
-            --text-primary: #744210;
-            --text-secondary: #975a16;
-        }
-
-        .color-theme {
-            background-color: var(--bg-primary);
-            transition: all 0.3s ease;
-        }
-
-        .post-container {
-            background-color: var(--bg-secondary);
-            color: var(--text-primary);
-            transition: all 0.3s ease;
-        }
-
-        .color-swatch {
-            width: 2rem;
-            height: 2rem;
-            border-radius: 0.5rem;
-            cursor: pointer;
-            transition: transform 0.2s ease;
-            border: 2px solid white;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-        }
-
-        .color-swatch:hover {
-            transform: scale(1.1);
-        }
-
-        @keyframes float {
-            0% { transform: translateY(0px); }
-            50% { transform: translateY(-5px); }
-            100% { transform: translateY(0px); }
-        }
-        .float-animation { animation: float 3s ease-in-out infinite; }
     </style>
 </head>
 <body id="mainBody" class="color-theme theme-default min-h-screen p-4 font-roboto">
